@@ -4,6 +4,7 @@
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_linalg.h>
 
+// Offered prototypes
 int InvertMatrix(gsl_matrix *Matrix, gsl_matrix *InvMatrix, int dimension);
 
 int InvertMatrix(gsl_matrix *Matrix, gsl_matrix *InvMatrix, int dimension){
@@ -29,8 +30,8 @@ int InvertMatrix(gsl_matrix *Matrix, gsl_matrix *InvMatrix, int dimension){
     gsl_linalg_LU_decomp(AUX, p, &signum);
     gsl_linalg_LU_invert(AUX, p, InvMatrix);
 
-    gsl_matrix_free(AUX);
-    gsl_permutation_free(p);
+    gsl_matrix_free(AUX);       AUX = NULL;
+    gsl_permutation_free(p);    p   = NULL;
 
     return 0;
 }

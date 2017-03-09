@@ -1,15 +1,18 @@
-CC = gcc -g -Wall #-Werror
-CFLAGS = 
+CC = gcc
+CFLAGS = -g -Wall -Wextra -Wmissing-prototypes -Wstrict-prototypes -Werror -Wno-sign-compare -mtune=native
 
-EXE = stencil
-DEP = stencil_generator.c InvertMatrix.c
-OBJ = stencil_generator.o InvertMatrix.o
+EXE = bin/stencil
+OBJ = main.o InvertMatrix.o BubbleSort.o Factorial.o FiniteDifferenceCoefficients.o
 LIB = `pkg-config --cflags --libs gsl`
 
 all: $(EXE)
+# define rule to build object files out of C-source files
+%.o : %.c
+	$(CC) $(CFLAGS) $(LIB) -c $<
 
-$(EXE): $(DEP)
-	$(CC) $(CFLAGS) $(DEP) $(LIB) -o $@
+# link all objects to create the executable
+$(EXE): $(OBJ)
+	$(CC) $(CFLAGS) $(LIB) $(OBJ) -o $@
 
 clean:
 	rm -f $(OBJ) $(EXE)
