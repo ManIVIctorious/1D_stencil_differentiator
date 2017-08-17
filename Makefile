@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -g -Wall -Wextra -Wmissing-prototypes -Wstrict-prototypes -Werror -Wno-sign-compare -mtune=native
 
-EXE = bin/stencil
+EXE = bin/1d_differenciation
 OBJ = main.o InvertMatrix.o BubbleSort.o Factorial.o FiniteDifferenceCoefficients.o
 LIB = `pkg-config --cflags --libs gsl`
 
