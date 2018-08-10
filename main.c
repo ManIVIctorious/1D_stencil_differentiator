@@ -11,7 +11,8 @@ int FiniteDifferenceCoefficients(unsigned int derivative, unsigned int point_num
 
 int main(int argc, char **argv){
 
-    int i, j;
+    int i;
+    unsigned int j;
     unsigned int derivative_order    = atoi(argv[1]);
     unsigned int sample_point_number = argc-2;
     int * sample_point_location;
@@ -26,13 +27,13 @@ int main(int argc, char **argv){
     }
 
 // fill sample point location vector
-    for(i = 0; i < sample_point_number; ++i){
-        sample_point_location[i] = atof(argv[i+2]);
+    for(j = 0; j < sample_point_number; ++j){
+        sample_point_location[j] = atof(argv[j+2]);
     }
 
 // sort sample point location vector and remove duplicate entries
     bubblesort_int(sample_point_location, sample_point_number);
-    for(i = 0; i < (sample_point_number - 1); ++i){
+    for(i = 0; i < (int)(sample_point_number - 1); ++i){
         if(sample_point_location[i] == sample_point_location[i+1]){
             for(j = i+1; j < sample_point_number; ++j){
                 sample_point_location[j] = sample_point_location[j+1];
@@ -46,27 +47,27 @@ int main(int argc, char **argv){
 
 
 // output: print finite difference coefficients
-    for(i = 0; i < sample_point_number; ++i){
-        fprintf(stdout, "#% 14.6lf f(x%+0dh) / (h**%u)\n", result_vector[i], sample_point_location[i], derivative_order);
+    for(j = 0; j < sample_point_number; ++j){
+        fprintf(stdout, "#% 14.6lf f(x%+0dh) / (h**%u)\n", result_vector[j], sample_point_location[j], derivative_order);
     }
 
 
 // generate sinus start function
-    int n_points = 1000;
+    unsigned int n_points = 1000;
     double * in_function  = calloc(n_points, sizeof(double));
     double * out_function = calloc(n_points, sizeof(double));
 
     double pi = 3.141592653589793238462643383279;
     double dx=2*pi/n_points;
-    for(i = 0; i < n_points; ++i){
-        in_function[i] = sin(dx*i);
+    for(j = 0; j < n_points; ++j){
+        in_function[j] = sin(dx*j);
     }
 
 // calculation with full stencil and all points of in_function
 //  leads to errors in edge cases (first and last points of out_function)
-    for(i = 0; i < n_points; ++i){
+    for(i = 0; i < (int)n_points; ++i){
         for(j = 0; j < sample_point_number; ++j){
-            if(i + sample_point_location[j] >= 0 && i + sample_point_location[j] < n_points){
+            if(i + sample_point_location[j] >= 0 && i + sample_point_location[j] < (int)n_points){
                 out_function[i] += result_vector[j] * in_function[i+sample_point_location[j]];
             }
         }
@@ -80,8 +81,8 @@ int main(int argc, char **argv){
 
 
 // output only the points where a full stencil could be applied
-    for(i = sample_point_location[0]; i < n_points; ++i){
-        if(i + sample_point_location[0] < 0 || i + sample_point_location[sample_point_number-1] >= (n_points-1)){
+    for(i = sample_point_location[0]; i < (int)n_points; ++i){
+        if(i + sample_point_location[0] < 0 || (i + sample_point_location[sample_point_number-1]) >= (int)(n_points-1)){
             continue;
         }
         printf("%lf\t%lf\t%lf\n", i*dx, in_function[i], out_function[i]);
