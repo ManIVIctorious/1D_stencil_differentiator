@@ -1,0 +1,17 @@
+# Executable name
+  EXENAME = 1d-stencil-differentiator
+
+# Additional libraries, includes and packages
+  LIB      = -lm
+  INC      = 
+  PACKAGES = gsl
+
+# Preprocessor flags
+  PPF = 
+
+# Source Files
+  SRC += main.c
+  SRC += BubbleSort.c
+  SRC += Factorial.c
+  SRC += FiniteDifferenceCoefficients.c
+  SRC += InvertMatrix.c
